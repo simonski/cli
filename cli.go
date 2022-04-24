@@ -22,6 +22,12 @@ func New(args []string) *CLI {
 	return &r
 }
 
+func NewFromString(line string) *CLI {
+	splits := strings.Split(line, " ")
+	cli := New(splits)
+	return cli
+}
+
 func (c *CLI) GetCommand() string {
 	if len(c.Args) > 1 {
 		return c.Args[1]

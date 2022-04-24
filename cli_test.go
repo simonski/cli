@@ -2,18 +2,11 @@ package goutils
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 )
 
-func createCLI(line string) *CLI {
-	splits := strings.Split(line, " ")
-	cli := New(splits)
-	return cli
-}
-
 func TestConstructor(t *testing.T) {
-	c := createCLI("run -file fred.txt c d -e 'hello'")
+	c := NewFromString("run -file fred.txt c d -e 'hello'")
 	fmt.Printf("CLI contains %d\n", c.GetIntOrDefault("-fooo", 4))
 
 	// t.Errorf("Something %d %q", len(c.Args), c.Args)
