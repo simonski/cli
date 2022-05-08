@@ -214,3 +214,25 @@ func GetEnvOrDefault(key string, defaultValue string) string {
 		return defaultValue
 	}
 }
+
+func (c CLI) GetStringFromSetOrDefault(key string, defaultValue string, permitted []string) string {
+	value := c.GetStringOrDefault(key, defaultValue)
+	for _, entry := range permitted {
+		if value == entry {
+			return value
+		}
+	}
+	return defaultValue
+}
+
+func (c CLI) GetStringFromSetOrDie(key string, permitted []string) string {
+	value := c.GetStringOrDefault(key, "")
+	for _, entry := range permitted {
+		if value == entry {
+			return value
+		}
+	}
+	fmt.Printf("Fatal: '%s' does not exist in set %v .\n", key, permitted)
+	os.Exit(1)
+	return ""
+}
