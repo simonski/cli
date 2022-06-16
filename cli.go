@@ -1,4 +1,4 @@
-package goutils
+package cli
 
 import (
 	"fmt"
