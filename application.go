@@ -3,7 +3,6 @@ package cli
 import (
 	"fmt"
 	"os"
-	"strings"
 )
 
 type Application struct {
@@ -72,12 +71,9 @@ type CommandHelp struct {
 
 func (c CommandHelp) Invoke(cli *CLI, a *Application) {
 	command := cli.GetCommand()
-	splits := strings.Split(command, " ")
-	if len(splits) > 1 {
-		cmdname := splits[1]
-		cmd := a.Commands[cmdname]
-		fmt.Println(cmd.Help())
-	} else {
+	topic := cli.GetStringOrDefault(command, "")
+	cmd := a.Commands[topic]
+	if cmd == nil {
 		fmt.Println("Usage: help <topic>")
 		os.Exit(1)
 	}
