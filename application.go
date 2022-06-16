@@ -72,7 +72,7 @@ type CommandHelp struct {
 
 func (c CommandHelp) Invoke(cli *CLI, a *Application) {
 	command := cli.GetCommand()
-	splits := strings.Split(command, ",")
+	splits := strings.Split(command, " ")
 	if len(splits) > 1 {
 		cmdname := splits[1]
 		cmd := a.Commands[cmdname]
