@@ -73,9 +73,14 @@ type CommandHelp struct {
 func (c CommandHelp) Invoke(cli *CLI, a *Application) {
 	command := cli.GetCommand()
 	splits := strings.Split(command, ",")
-	cmdname := splits[1]
-	cmd := a.Commands[cmdname]
-	fmt.Println(cmd.Help())
+	if len(splits) > 1 {
+		cmdname := splits[1]
+		cmd := a.Commands[cmdname]
+		fmt.Println(cmd.Help())
+	} else {
+		fmt.Println("Usage: help <topic>")
+		os.Exit(1)
+	}
 }
 func (c CommandHelp) Help() string {
 	return "Used to how the help of other commands."
