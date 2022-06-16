@@ -76,6 +76,8 @@ func (c CommandHelp) Invoke(cli *CLI, a *Application) {
 	if cmd == nil {
 		fmt.Println("Usage: help <topic>")
 		os.Exit(1)
+	} else {
+		fmt.Println(cmd.Help())
 	}
 }
 func (c CommandHelp) Help() string {
