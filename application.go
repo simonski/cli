@@ -1,18 +1,21 @@
 package cli
 
 import (
+	"context"
 	"fmt"
 	"os"
 )
 
 type Application struct {
 	Commands       map[string]Command
+	Context        context.Context
 	DefaultCommand Command
 }
 
 func NewApplication() *Application {
 	a := &Application{}
 	a.Commands = make(map[string]Command)
+	a.Context = context.Background()
 	return a
 }
 
