@@ -25,7 +25,7 @@ build: clean test
 	go build
 	
 test:
-	go test
+	go test -v ./...
 
 install:
 	go install
