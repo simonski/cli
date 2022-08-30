@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2022-08-30
+
+GetIntOrEnvOrDefault(...)
+GetStringOrEnvOrDefault(...)
+
 ## 2022-08-03
 
 go1.19

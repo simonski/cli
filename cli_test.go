@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"os"
 	"testing"
 )
 
@@ -160,5 +161,27 @@ func Test_GetStringFromSetOrDie(t *testing.T) {
 	// if value != "bar" {
 	// 	t.Errorf("The value should be 'bar', it is '%v'", value)
 	// }
+
+}
+
+func Test_GetIntOrEnvOrDefault(t *testing.T) {
+	line := "-mykey 10"
+	c := NewFromString(line)
+	value := c.GetIntOrDefault("-mykey", 6)
+	if value != 10 {
+		t.Errorf("Should be 10")
+	}
+
+	os.Setenv("MY_KEY", "")
+	value2 := c.GetIntOrEnvOrDefault("-myotherkey", "MY_KEY", 10)
+	if value2 != 10 {
+		t.Errorf("Should be 10")
+	}
+
+	os.Setenv("MY_KEY", "50")
+	value3 := c.GetIntOrEnvOrDefault("-myotherkey", "MY_KEY", 10)
+	if value3 != 50 {
+		t.Errorf("Should be 50, is %v\n", value3)
+	}
 
 }
