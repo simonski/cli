@@ -48,6 +48,11 @@ func (c CLI) IndexOf(key string) int {
 	return -1
 }
 
+// Contains indicates if a key exists or
+func (c CLI) Contains(key string) bool {
+	return c.IndexOf(key) > -1
+}
+
 /*
 SplitStringToInts splits the cols string based on the delimiter, converting the results in an []int
 */
@@ -149,6 +154,26 @@ func (c CLI) GetIntOrDefault(key string, defaultValue int) int {
 		return -1
 	}
 	return v
+}
+
+func (c CLI) GetStringOrEnvOrDefault(key string, env_key string, defaultValue string) string {
+	env_value := os.Getenv(env_key)
+	value := defaultValue
+	if env_value != "" {
+		value = env_value
+	}
+	return c.GetStringOrDefault(key, value)
+}
+
+func (c CLI) GetIntOrEnvOrDefault(key string, env_key string, defaultValue int) int {
+	svalue := fmt.Sprintf("%v", defaultValue)
+	value := c.GetStringOrEnvOrDefault(key, env_key, svalue)
+	ivalue, err := strconv.Atoi(value)
+	if err == nil {
+		return ivalue
+	} else {
+		return defaultValue
+	}
 }
 
 /*
