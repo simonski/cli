@@ -1,7 +1,11 @@
 # CHANGELOG
 
 ## 2202-09-11
+
 Added IS_INTERACTIVE, IS_VERBOSE, IS_EXIT_ON_ERROR instance variables.
+Modifed GetCommand() to take from 0 (previously was 1)
+Added Shift()
+Added Flatten()
 
 ## 2022-08-30
 
