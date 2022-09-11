@@ -93,8 +93,8 @@ func Test_NoCommandButOptions(t *testing.T) {
 	line := "program -option1 -option2"
 	c := NewFromString(line)
 	command := c.GetCommand()
-	if command != "-option1" {
-		t.Errorf("There should be no command when options are specified.  The line is '%v', the command is '%v' (it should be '')", line, command)
+	if command != "program" {
+		t.Errorf("The line is '%v', the command is '%v' (it should be 'program')", line, command)
 	}
 }
 
@@ -102,13 +102,13 @@ func Test_NoCommand(t *testing.T) {
 	line := "program"
 	c := NewFromString(line)
 	command := c.GetCommand()
-	if command != "" {
-		t.Errorf("There should be no command when nothign but the program is specified.  The line is '%v', the command is '%v' (it should be '')", line, command)
+	if command != "program" {
+		t.Errorf("The line is '%v', the command is '%v' (it should be 'program')", line, command)
 	}
 }
 
 func Test_CommandAndOptions(t *testing.T) {
-	line := "program mycommand -option1 -option2 value1"
+	line := "mycommand -option1 -option2 value1"
 	c := NewFromString(line)
 	command := c.GetCommand()
 	if command != "mycommand" {
@@ -182,6 +182,46 @@ func Test_GetIntOrEnvOrDefault(t *testing.T) {
 	value3 := c.GetIntOrEnvOrDefault("-myotherkey", "MY_KEY", 10)
 	if value3 != 50 {
 		t.Errorf("Should be 50, is %v\n", value3)
+	}
+
+}
+
+func Test_Shift(t *testing.T) {
+	line := "10 9 8 7 6 5 4 3 2 1"
+	c := NewFromString(line)
+	if c.GetCommand() != "10" {
+		t.Errorf("Command should be ten.")
+	}
+
+	if c.Flatten() != "10 9 8 7 6 5 4 3 2 1" {
+		t.Errorf("Flatten after 0 shift should be '10 9 8 7 6 5 4 3 2 1' but was '%v'", c.Flatten())
+	}
+
+	c.Shift()
+	if c.Flatten() != "9 8 7 6 5 4 3 2 1" {
+		t.Errorf("Flatten after 1 shift should be '9 8 7 6 5 4 3 2 1' but was '%v'", c.Flatten())
+	}
+
+	c.Shift()
+	c.Shift()
+	c.Shift()
+	c.Shift()
+	c.Shift()
+	c.Shift()
+	if c.Flatten() != "3 2 1" {
+		t.Errorf("Flatten after 7 shifts should be '3 2 1' but was '%v'", c.Flatten())
+	}
+
+	c.Shift()
+	c.Shift()
+	c.Shift()
+	if c.Flatten() != "" {
+		t.Errorf("Flatten after 10 shifts should be '' but was '%v'", c.Flatten())
+	}
+
+	c.Shift()
+	if c.Flatten() != "" {
+		t.Errorf("Flatten after 10 shifts should be '' but was '%v'", c.Flatten())
 	}
 
 }

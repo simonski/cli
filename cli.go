@@ -32,10 +32,16 @@ func NewFromString(line string) *CLI {
 }
 
 func (c *CLI) GetCommand() string {
-	if len(c.Args) > 1 {
-		return c.Args[1]
+	if len(c.Args) > 0 {
+		return c.Args[0]
 	} else {
 		return ""
+	}
+}
+
+func (c *CLI) Shift() {
+	if len(c.Args) > 0 {
+		c.Args = c.Args[1:]
 	}
 }
 
@@ -263,4 +269,13 @@ func (c CLI) GetStringFromSetOrDie(key string, permitted []string) string {
 	fmt.Printf("Fatal: '%s' does not exist in set %v .\n", key, permitted)
 	os.Exit(1)
 	return ""
+}
+
+func (c CLI) Flatten() string {
+	output := ""
+	for _, value := range c.Args {
+		output += value
+		output += " "
+	}
+	return strings.TrimSpace(output)
 }
