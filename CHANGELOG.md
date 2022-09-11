@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2202-09-11
+Added IS_INTERACTIVE, IS_VERBOSE, IS_EXIT_ON_ERROR instance variables.
+
 ## 2022-08-30
 
 GetIntOrEnvOrDefault(...)

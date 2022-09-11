@@ -11,15 +11,18 @@ import (
 CLI is my helper utility to work out what the user did type
 */
 type CLI struct {
-	Args []string
+	Args             []string
+	IS_INTERACTIVE   bool
+	IS_VERBOSE       bool
+	IS_EXIT_ON_ERROR bool
 }
 
 /*
 NewCLI create instance of a cli
 */
 func New(args []string) *CLI {
-	r := CLI{Args: args}
-	return &r
+	c := CLI{Args: args}
+	return &c
 }
 
 func NewFromString(line string) *CLI {
