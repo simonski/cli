@@ -1,6 +1,9 @@
 # CHANGELOG
 
-## 2202-09-11
+## 2022-09-19
+Bugfix in getFileExistsOrDefault - incorrectly exit 1 when shoudl return the default filename.
+
+## 2022-09-11
 
 Added IS_INTERACTIVE, IS_VERBOSE, IS_EXIT_ON_ERROR instance variables.
 Modifed GetCommand() to take from 0 (previously was 1)

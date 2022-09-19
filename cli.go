@@ -218,14 +218,7 @@ func (c CLI) GetFileExistsOrDefault(key string, defaultValue string) string {
 	if filename == "" {
 		return defaultValue
 	}
-
-	if c.FileExists(filename) {
-		return filename
-	}
-
-	fmt.Printf("Fatal: '%s' does not exist.\n", filename)
-	os.Exit(1)
-	return ""
+	return filename
 }
 
 /*
