@@ -89,7 +89,7 @@ func TestConstructor(t *testing.T) {
 // 	return !result.IsDir()
 // }
 
-func Test_NoCommandButOptions(t *testing.T) {
+func TestNoCommandButOptions(t *testing.T) {
 	line := "program -option1 -option2"
 	c := NewFromString(line)
 	command := c.GetCommand()
@@ -98,7 +98,7 @@ func Test_NoCommandButOptions(t *testing.T) {
 	}
 }
 
-func Test_NoCommand(t *testing.T) {
+func TestNoCommand(t *testing.T) {
 	line := "program"
 	c := NewFromString(line)
 	command := c.GetCommand()
@@ -107,7 +107,7 @@ func Test_NoCommand(t *testing.T) {
 	}
 }
 
-func Test_CommandAndOptions(t *testing.T) {
+func TestCommandAndOptions(t *testing.T) {
 	line := "mycommand -option1 -option2 value1"
 	c := NewFromString(line)
 	command := c.GetCommand()
@@ -116,7 +116,7 @@ func Test_CommandAndOptions(t *testing.T) {
 	}
 }
 
-func Test_IndexOf1(t *testing.T) {
+func TestIndexOf1(t *testing.T) {
 	line := "program -option1 -option2 value2"
 	c := NewFromString(line)
 	if c.IndexOf("-option1") != 1 {
@@ -139,7 +139,7 @@ func Test_IndexOf1(t *testing.T) {
 
 }
 
-func Test_GetStringFromSetOrDefault(t *testing.T) {
+func TestGetStringFromSetOrDefault(t *testing.T) {
 	line := "program mycommand -foo bar"
 	c := NewFromString(line)
 	value := c.GetStringOrDefault("-foo", "default")
@@ -154,17 +154,13 @@ func Test_GetStringFromSetOrDefault(t *testing.T) {
 
 }
 
-func Test_GetStringFromSetOrDie(t *testing.T) {
+func TestGetStringFromSetOrDie(t *testing.T) {
 	line := "program mycommand -foo a"
 	c := NewFromString(line)
 	c.GetStringFromSetOrDie("-foo", []string{"a", "b", "c"})
-	// if value != "bar" {
-	// 	t.Errorf("The value should be 'bar', it is '%v'", value)
-	// }
-
 }
 
-func Test_GetIntOrEnvOrDefault(t *testing.T) {
+func TestGetIntOrEnvOrDefault(t *testing.T) {
 	line := "-mykey 10"
 	c := NewFromString(line)
 	value := c.GetIntOrDefault("-mykey", 6)
@@ -186,7 +182,7 @@ func Test_GetIntOrEnvOrDefault(t *testing.T) {
 
 }
 
-func Test_Shift(t *testing.T) {
+func TestShift(t *testing.T) {
 	line := "10 9 8 7 6 5 4 3 2 1"
 	c := NewFromString(line)
 	if c.GetCommand() != "10" {
@@ -224,4 +220,60 @@ func Test_Shift(t *testing.T) {
 		t.Errorf("Flatten after 10 shifts should be '' but was '%v'", c.Flatten())
 	}
 
+}
+
+func TestVerbosityNone(t *testing.T) {
+	line := "mycommand "
+	c := NewFromString(line)
+	if c.IS_VERBOSE {
+		t.Error("not verbose")
+	}
+	if c.IS_VERBOSE2 {
+		t.Error("not verbose")
+	}
+	if c.IS_VERBOSE3 {
+		t.Error("not verbose")
+	}
+}
+
+func TestVerbosityV1(t *testing.T) {
+	line := "mycommand -v "
+	c := NewFromString(line)
+	if !c.IS_VERBOSE {
+		t.Error("is verbose")
+	}
+	if c.IS_VERBOSE2 {
+		t.Error("not verbose")
+	}
+	if c.IS_VERBOSE3 {
+		t.Error("not verbose")
+	}
+}
+
+func TestVerbosityV2(t *testing.T) {
+	line := "mycommand -vv "
+	c := NewFromString(line)
+	if !c.IS_VERBOSE {
+		t.Error("is verbose")
+	}
+	if !c.IS_VERBOSE2 {
+		t.Error("is verbose")
+	}
+	if c.IS_VERBOSE3 {
+		t.Error("not verbose")
+	}
+}
+
+func TestVerbosityV3(t *testing.T) {
+	line := "mycommand -vvv "
+	c := NewFromString(line)
+	if !c.IS_VERBOSE {
+		t.Error("is verbose")
+	}
+	if !c.IS_VERBOSE2 {
+		t.Error("is verbose")
+	}
+	if !c.IS_VERBOSE3 {
+		t.Error("is verbose")
+	}
 }
