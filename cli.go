@@ -185,6 +185,15 @@ func (c CLI) GetIntOrEnvOrDefault(key string, env_key string, defaultValue int) 
 	}
 }
 
+func (c CLI) GetStringOrEnvOrDie(key string, env_key string) string {
+	v := c.GetStringOrEnvOrDefault(key, env_key, "")
+	if v == "" {
+		fmt.Printf("'%v' or '%v' is required.\n", key, env_key)
+		os.Exit(1)
+	}
+	return v
+}
+
 /*
 GetFileExistsOrDie returns the name of the file provided if it exists or failes and os.Exit(1)
 */

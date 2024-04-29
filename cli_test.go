@@ -225,3 +225,37 @@ func Test_Shift(t *testing.T) {
 	}
 
 }
+
+func Test_GetStringOrEnvOrDefault(t *testing.T) {
+
+	line := ""
+	c := NewFromString(line)
+	result := c.GetStringOrEnvOrDefault("-key", "KEY", "")
+	if result != "" {
+		t.Errorf("-key nor KEY was specified.")
+	}
+
+	line2 := "-key value"
+	c2 := NewFromString(line2)
+	result2 := c2.GetStringOrEnvOrDefault("-key", "KEY", "")
+	if result2 != "value" {
+		t.Errorf("-key should be value but was '%v'\n", result2)
+	}
+
+	line3 := "-key value"
+	os.Setenv("KEY", "somthing")
+	c3 := NewFromString(line3)
+	result3 := c3.GetStringOrEnvOrDefault("-key", "KEY", "")
+	if result3 != "value" {
+		t.Errorf("-key should be value but was '%v'\n", result3)
+	}
+
+	line4 := ""
+	os.Setenv("KEY", "something")
+	c4 := NewFromString(line4)
+	result4 := c4.GetStringOrEnvOrDefault("-key", "KEY", "")
+	if result4 != "something" {
+		t.Errorf("-key should be something but was '%v'\n", result4)
+	}
+
+}
