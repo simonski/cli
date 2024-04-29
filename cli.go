@@ -14,6 +14,8 @@ type CLI struct {
 	Args             []string
 	IS_INTERACTIVE   bool
 	IS_VERBOSE       bool
+	IS_VERBOSE2      bool
+	IS_VERBOSE3      bool
 	IS_EXIT_ON_ERROR bool
 }
 
@@ -28,6 +30,19 @@ func New(args []string) *CLI {
 func NewFromString(line string) *CLI {
 	splits := strings.Split(line, " ")
 	cli := New(splits)
+	if cli.Contains("-vvv") {
+		cli.IS_VERBOSE3 = true
+		cli.IS_VERBOSE2 = true
+		cli.IS_VERBOSE = true
+	} else if cli.Contains("-vv") {
+		cli.IS_VERBOSE3 = false
+		cli.IS_VERBOSE2 = true
+		cli.IS_VERBOSE = true
+	} else if cli.Contains("-v") {
+		cli.IS_VERBOSE3 = false
+		cli.IS_VERBOSE2 = false
+		cli.IS_VERBOSE = true
+	}
 	return cli
 }
 

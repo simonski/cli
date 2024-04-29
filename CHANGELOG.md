@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2022-09-19
+
 Bugfix in getFileExistsOrDefault - incorrectly exit 1 when shoudl return the default filename.
 
 ## 2022-09-11
